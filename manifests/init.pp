@@ -68,15 +68,15 @@ class sonarqube (
     $real_home = '/var/local/sonar'
   }
 
-  anchor { 'sonarqube::begin': } ->
-  class { '::sonarqube::user': } ->
-  class { '::sonarqube::install': } ->
-  class { '::sonarqube::config': } ~>
-  class { '::sonarqube::service': } ->
-  class { '::sonarqube::firewall': } ->
-  anchor { 'sonarqube::end': }
+  anchor { 'sonarqube::begin': }
+  -> class { '::sonarqube::user': }
+  -> class { '::sonarqube::install': }
+  -> class { '::sonarqube::config': }
+  ~> class { '::sonarqube::service': }
+  -> class { '::sonarqube::firewall': }
+  -> anchor { 'sonarqube::end': }
 
-  Class['::sonarqube::install'] ~>
-  Class['::sonarqube::service']
+  Class['::sonarqube::install']
+  ~> Class['::sonarqube::service']
 
 }

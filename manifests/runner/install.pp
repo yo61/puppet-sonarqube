@@ -5,7 +5,7 @@ class sonarqube::runner::install (
   $download_url,
   $installroot,
 ) {
-  include wget
+  include ::wget
 
   if ! defined(Package[unzip]) {
     package { 'unzip':
@@ -19,18 +19,15 @@ class sonarqube::runner::install (
   wget::fetch { 'download-sonar-runner':
     source      => "${download_url}/${version}/sonar-runner-dist-${version}.zip",
     destination => $tmpzip,
-  } ->
-
-  file { "${installroot}/${package_name}-${version}":
+  }
+  -> file { "${installroot}/${package_name}-${version}":
     ensure => directory,
-  } ->
-
-  file { "${installroot}/${package_name}":
+  }
+  -> file { "${installroot}/${package_name}":
     ensure => link,
     target => "${installroot}/${package_name}-${version}",
-  } ->
-
-  exec { 'unzip-sonar-runner':
+  }
+  -> exec { 'unzip-sonar-runner':
     command => "unzip -o ${tmpzip} -d ${installroot}",
     creates => "${installroot}/sonar-runner-${version}/bin",
     require => [Package[unzip], Wget::Fetch['download-sonar-runner']],

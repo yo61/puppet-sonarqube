@@ -28,7 +28,7 @@ class sonarqube::install::source {
   }
 
   # wget from https://github.com/maestrodev/puppet-wget
-  include wget
+  include ::wget
 
   Sonarqube::Move_to_home {
     home => $real_home,
@@ -74,7 +74,14 @@ class sonarqube::install::source {
   -> sonarqube::move_to_home { 'logs': }
   # ===== Install SonarQube =====
   -> exec { 'untar':
-    command => "unzip -o ${tmpzip} -d ${installroot} && chown -R ${user}:${group} ${installroot}/${package_name}-${version} && chown -R ${user}:${group} ${real_home}",
+    command => join(
+      [
+        "unzip -o ${tmpzip} -d ${installroot}",
+        "chown -R ${user}:${group} ${installroot}/${package_name}-${version}",
+        "chown -R ${user}:${group} ${real_home}",
+      ],
+      ' && '
+    ),
     creates => "${installroot}/${package_name}-${version}/bin",
     notify  => Service['sonarqube'],
   }

@@ -5,10 +5,10 @@ class sonarqube::install {
   assert_private()
 
   if $::sonarqube::use_packages {
-    contain sonarqube::install::package
+    contain ::sonarqube::install::package
   }
   else {
-    contain sonarqube::install::source
+    contain ::sonarqube::install::source
   }
 
 }

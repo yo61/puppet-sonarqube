@@ -17,8 +17,7 @@ class sonarqube::user {
       managehome => false,
       system     => $user_system,
     }
-    ->
-    group { $group:
+    -> group { $group:
       ensure => present,
       system => $user_system,
     }
