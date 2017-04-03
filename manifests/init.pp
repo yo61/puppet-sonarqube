@@ -68,6 +68,9 @@ class sonarqube (
     $real_home = '/var/local/sonar'
   }
 
+  $extensions_dir = "${real_home}/extensions"
+  $plugin_dir = "${extensions_dir}/plugins"
+
   anchor { 'sonarqube::begin': }
   -> class { '::sonarqube::user': }
   -> class { '::sonarqube::install': }

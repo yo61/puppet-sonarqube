@@ -4,19 +4,21 @@ class sonarqube::install::source {
   # this class intended to be used from sonarqube::install class
   assert_private()
 
-  $arch         = $::sonarqube::arch
-  $config       = $::sonarqube::config
-  $download_dir = $::sonarqube::download_dir
-  $download_url = $::sonarqube::download_url
-  $group        = $::sonarqube::group
-  $installdir   = $::sonarqube::installdir
-  $installroot  = $::sonarqube::installroot
-  $package_name = $::sonarqube::package_name
-  $real_home    = $::sonarqube::real_home
-  $service      = $::sonarqube::service
-  $user         = $::sonarqube::user
-  $user_system  = $::sonarqube::user_system
-  $version      = $::sonarqube::version
+  $arch           = $::sonarqube::arch
+  $config         = $::sonarqube::config
+  $download_dir   = $::sonarqube::download_dir
+  $download_url   = $::sonarqube::download_url
+  $extensions_dir = $::sonarqube::extensions_dir
+  $group          = $::sonarqube::group
+  $installdir     = $::sonarqube::installdir
+  $installroot    = $::sonarqube::installroot
+  $package_name   = $::sonarqube::package_name
+  $plugin_dir     = $::sonarqube::plugin_dir
+  $real_home      = $::sonarqube::real_home
+  $service        = $::sonarqube::service
+  $user           = $::sonarqube::user
+  $user_system    = $::sonarqube::user_system
+  $version        = $::sonarqube::version
 
   validate_absolute_path($download_dir)
   Exec {
@@ -33,9 +35,6 @@ class sonarqube::install::source {
   Sonarqube::Move_to_home {
     home => $real_home,
   }
-
-  $extensions_dir = "${real_home}/extensions"
-  $plugin_dir = "${extensions_dir}/plugins"
 
   $tmpzip = "${download_dir}/${package_name}-${version}.zip"
   $script = "${installdir}/bin/${arch}/sonar.sh"
