@@ -1,0 +1,16 @@
+[Unit]
+Description=Sonar
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=<%= @sonar_script %> start
+ExecStop=<%= @sonar_script %> stop
+ExecReload=<%= @sonar_script %> restart
+PIDFile=<%= $pid_file %>
+Type=forking
+User=<%= @user %>
+
+
+[Install]
+WantedBy=multi-user.target

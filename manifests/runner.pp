@@ -20,19 +20,19 @@ class sonarqube::runner (
     path => '/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin',
   }
 
-  anchor { 'sonarqube::runner::begin': } ->
-  class { '::sonarqube::runner::install':
+  anchor { 'sonarqube::runner::begin': }
+  -> class { '::sonarqube::runner::install':
     package_name => $package_name,
     version      => $version,
     download_url => $download_url,
     installroot  => $installroot,
-  } ->
-  class { '::sonarqube::runner::config':
+  }
+  -> class { '::sonarqube::runner::config':
     package_name     => $package_name,
     version          => $version,
     installroot      => $installroot,
     jdbc             => $jdbc,
     sonarqube_server => $sonarqube_server,
-  } ~>
-  anchor { 'sonarqube::runner::end': }
+  }
+  ~> anchor { 'sonarqube::runner::end': }
 }
